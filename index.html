@@ -14,7 +14,7 @@
   </form>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwf24_gug4utqkZmopm3ujFgZItKw0-LZu_goUor1kFehACTULrXjIhFa371hWCIRT9/exec'; // Replace with your Apps Script URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwf24_gug4utqkZmopm3ujFgZItKw0-LZu_goUor1kFehACTULrXjIhFa371hWCIRT9/exec';
 
     document.getElementById('myForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -23,11 +23,17 @@
 
       fetch(scriptURL, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // ✅ Needed for JSON parsing + CORS
+        },
         body: JSON.stringify(data)
       })
       .then(response => response.json())
       .then(result => alert('Submitted successfully!'))
-      .catch(error => alert('Error occurred!'));
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error occurred! See console for details.');
+      });
     });
   </script>
 </body>
